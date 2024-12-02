@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1A1A2E;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #16213E;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px;
+}
+
+h1 {
+    color: #E94560;
+}
+
+label, input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+input[type="time"], input[type="number"] {
+    background-color: #0F3460;
+    border: 1px solid #E94560;
+    color: white;
+}
+
+button {
+    background-color: #E94560;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #FF7E5F;
+}

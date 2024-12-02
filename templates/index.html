@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PunctualPal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>PunctualPal</h1>
+        <form method="POST">
+            <label for="target_time">Desired Start Time</label>
+            <input type="time" id="target_time" name="target_time" required>
+            <label for="late_by">How late are you usually (in minutes)?</label>
+            <input type="number" id="late_by" name="late_by" required min="1">
+            <button type="submit" onclick="enableSound()">Set Reminder</button>
+        </form>
+
+        {% if reminder_time %}
+            <h2>Your reminder time is: {{ reminder_time }}</h2>
+
+            <!-- Play alarm sound at the reminder time -->
+            <script>
+                let soundEnabled = false;  // Variable to enable sound after user interaction
+                const reminderTime = "{{ reminder_time }}";  // Reminder time passed from Flask
+                const alarmSound = new Audio("{{ url_for('static', filename='the_sound.mp3') }}");
+
+                // Convert the reminder time string into a Date object
+                const [hours, minutes] = reminderTime.split(":").map(Number);
+                const now = new Date();
+                const reminderDate = new Date(now.setHours(hours, minutes, 0, 0));
+
+                // Log the times to the browser console for debugging
+                console.log("Current time: ", new Date().toLocaleTimeString());
+                console.log("Reminder time: ", reminderDate.toLocaleTimeString());
+
+                // Function to check the current time and play the alarm when the reminder time arrives
+                function checkReminder() {
+                    const currentTime = new Date();
+                    console.log("Checking current time:", currentTime.toLocaleTimeString());
+
+                    if (currentTime >= reminderDate && soundEnabled) {
+                        console.log("Reminder time reached! Playing alarm...");
+                        alarmSound.play();  // Play the alarm sound
+                        clearInterval(intervalId);  // Stop checking after alarm has played
+                    }
+                }
+
+                // Enable sound after the first click to overcome autoplay restrictions
+                function enableSound() {
+                    soundEnabled = true;
+                    alarmSound.play();  // Enable sound after user interaction
+                }
+
+                // Check every second
+                const intervalId = setInterval(checkReminder, 1000);
+            </script>
+        {% endif %}
+    </div>
+</body>
+</html>
